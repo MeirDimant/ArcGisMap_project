@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { initializeMap } from "../utils/MapInitializer";
+import { initializeMap, MapOptions } from "../utils/MapInitializer";
+import MapView from "@arcgis/core/views/MapView";
 
-export const useMap = (containerId, options) => {
-  const [mapView, setMapView] = useState(null);
-  const isMounted = useRef(false);
+export const useMap = (
+  containerId: string,
+  options: MapOptions
+): MapView | null => {
+  const [mapView, setMapView] = useState<MapView | null>(null);
+  const isMounted = useRef<boolean>(false);
 
   useEffect(() => {
     isMounted.current = true;
@@ -22,9 +26,7 @@ export const useMap = (containerId, options) => {
 
     return () => {
       isMounted.current = false;
-      if (mapView) {
-        mapView.destroy();
-      }
+      mapView?.destroy();
     };
   }, [containerId, options]);
 

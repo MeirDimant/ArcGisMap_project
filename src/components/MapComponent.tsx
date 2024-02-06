@@ -1,10 +1,15 @@
 import { useMemo } from "react";
 import { useMap } from "../hooks/useMap";
+import { MapOptions } from "../utils/MapInitializer";
 
-const MapComponent = () => {
-  const options = useMemo(
+interface MapComponentProps {
+  containerId: string;
+}
+
+const MapComponent: React.FC<MapComponentProps> = ({ containerId }) => {
+  const options: MapOptions = useMemo(
     () => ({
-      basemap: "arcgis/topographic",
+      basemap: "arcgis-topographic",
       center: [34.878, 32.031],
       zoom: 7,
       layers: [
@@ -13,7 +18,7 @@ const MapComponent = () => {
           outFields: ["CITY_NAME", "POP", "STATUS"],
           popupTemplate: {
             title: "{CITY_NAME}",
-            content: (feature) => {
+            content: (feature: any) => {
               const population = feature.graphic.attributes.POP;
               const formattedPopulation = population.toLocaleString();
               return `Population: ${formattedPopulation}`;
@@ -27,9 +32,11 @@ const MapComponent = () => {
     []
   );
 
-  useMap("viewDiv", options);
+  useMap(containerId, options);
 
-  return <div id="viewDiv" style={{ height: "100vh", width: "100%" }}></div>;
+  return (
+    <div id={containerId} style={{ height: "100vh", width: "100%" }}></div>
+  );
 };
 
 export default MapComponent;
