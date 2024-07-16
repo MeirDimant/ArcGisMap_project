@@ -1,8 +1,11 @@
-import { loadModules } from "esri-loader";
+import Map from "@arcgis/core/Map";
+import MapView from "@arcgis/core/views/MapView";
+import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+import esriConfig from "@arcgis/core/config";
 
 export interface PopupTemplate {
   title: string;
-  content: (feature: any) => string;
+  content: string;
 }
 
 export interface LayerOptions {
@@ -23,17 +26,6 @@ export const initializeMap = async (
   containerId: string,
   options: MapOptions
 ) => {
-  const [esriConfig, Map, MapView, FeatureLayer] = await loadModules(
-    [
-      "esri/config",
-      "esri/Map",
-      "esri/views/MapView",
-      "esri/layers/FeatureLayer",
-    ],
-    {
-      url: "https://js.arcgis.com/4.28/",
-    }
-  );
 
   esriConfig.apiKey = process.env.REACT_APP_API_KEY as string;
 

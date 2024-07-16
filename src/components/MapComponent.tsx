@@ -18,11 +18,12 @@ const MapComponent: React.FC<MapComponentProps> = ({ containerId }) => {
           outFields: ["CITY_NAME", "POP", "STATUS"],
           popupTemplate: {
             title: "{CITY_NAME}",
-            content: (feature: any) => {
-              const population = feature.graphic.attributes.POP;
-              const formattedPopulation = population.toLocaleString();
-              return `Population: ${formattedPopulation}`;
-            },
+            content: "{POP}",
+            fieldInfos: {
+              fieldName: "POP",
+              format: {
+                digitSeparator: true,
+              }}
           },
           definitionExpression:
             "STATUS IN ('National and provincial capital', 'National capital and provincial capital enclave', 'National capital')",
